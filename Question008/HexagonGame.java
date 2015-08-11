@@ -106,19 +106,19 @@ public class HexagonGame {
 				}
 			}
 			
-//			for(int k=0;k<s;k++) {
-//				for(int j=0;j<s;j++) {
-//					System.out.print(matrixNumbered[k][j]+ ",");
-//				}
-//				System.out.println();
-//			}
-//           System.out.println();
+			for(int k=0;k<s;k++) {
+				for(int j=0;j<s;j++) {
+					System.out.print(matrixNumbered[k][j]+ ",");
+				}
+				System.out.println();
+			}
+           System.out.println();
 			for(int l=0; l<s; l++) {
 				for(int k=0;k<s;k++) {
 					for(int j=0;j<s;j++) {
 						if(matrixNumbered[j][k] == checkerList.get(l).getPos()) {
 							evaluateCheckerCost(checkerList.get(l), j, k, matrixNumbered, s);
-//							System.out.println();
+							System.out.println();
 						}
 					}
 				}
@@ -146,6 +146,43 @@ public class HexagonGame {
 			minimum = minimumCostRightD;
 		return minimum;
 		
+	}
+	
+	private int minimizedBipartiteMatching(List<Checker> checkerList, int s) {
+		int minimum = -1;
+		int[][] checkerMatrix = new int[s][s];
+		for(int i =0; i<s; i++) {
+			for(int j=0; j<s; j++) {
+				checkerMatrix[i][j] = checkerList.get(i).horizontalRowMovementCost[j];
+			}
+		}
+		for(int i=0; i<s; i++) {
+			int min = checkerMatrix[i][0];
+			for(int j=0; j<s; j++) {
+				if(checkerMatrix[i][j]<min)
+					min = checkerMatrix[i][j];
+			}
+			for(int j=0; j<s; j++) 
+				checkerMatrix[i][j]-=min;
+			
+		}
+
+		for(int j=0; j<s; j++) {
+			int min = checkerMatrix[0][j];
+			for(int i=0; i<s; i++) {
+				if(checkerMatrix[i][j]<min)
+					min = checkerMatrix[i][j];
+			}
+			for(int i=0; i<s; i++) 
+				checkerMatrix[i][j]-=min;
+			
+		}
+		
+		int[] resultIndices = new int[s];
+		int[] horizontalMarks = new int[s];
+		int[] verticalMarks = new int[s];
+		
+		return minimum;
 	}
 
 	private int minimumCost(List<Checker> remainingCheckerList,
@@ -201,13 +238,13 @@ public class HexagonGame {
 			MatrixLocation loc= locationQueues.remove();
 			addNeighbours(locationQueues, loc.row, loc.col, matrixNumbered, checkerMovementMatrix, s);
 		}
-//		for(int x=0;x<s;x++) {
-//			for(int y=0;y<s;y++) {
-//				System.out.print(checkerMovementMatrix[x][y]+ ",");
-//			}
-//			System.out.println();
-//		}
-//		System.out.println();
+		for(int x=0;x<s;x++) {
+			for(int y=0;y<s;y++) {
+				System.out.print(checkerMovementMatrix[x][y]+ ",");
+			}
+			System.out.println();
+		}
+		System.out.println();
 		checker.horizontalRowMovementCost = new int[s];
 		checker.rightDiagonalMovementCost = new int[s];
 		checker.leftDiagonalMovementCost = new int[s];
@@ -215,9 +252,9 @@ public class HexagonGame {
 			checker.horizontalRowMovementCost[x] = checkerMovementMatrix[s/2][x] * checker.getMovementCost();
 			checker.rightDiagonalMovementCost[x] = checkerMovementMatrix[x][s/2] * checker.getMovementCost();
 			checker.leftDiagonalMovementCost[x] = checkerMovementMatrix[x][x] * checker.getMovementCost();
-//			System.out.print(checker.leftDiagonalMovementCost[x] + ",");
+			System.out.print(checker.horizontalRowMovementCost[x] + ",");
 		}
-//		System.out.println();
+		System.out.println();
 		
 	}
 	
