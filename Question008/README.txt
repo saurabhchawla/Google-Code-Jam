@@ -1,3 +1,6 @@
-This code is a brute force approach to a bipartite graph. It has a time complexity in O(n!)
+This code first reduces the problem to a minimal bipartite matching problem or matching problem. Then, implements a hungarian approach to find the minimum.
 
-An improved code implementation is under progress.
+It also contains the function for a brute force approach.
+
+Hungarian solution did not produce correct results for google small dataset file and couldn't run on the large dataset.
+
